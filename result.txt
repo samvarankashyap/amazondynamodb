@@ -1,0 +1,66 @@
+
+#########################################################
+Time taken to initialise database : 0.103668928146
+File Download time 7.31318879128
+ File upload time : 5.01487898827
+Inserting into database time :59.3413619995
+Without caching queries : 
+Time for the 1k records:2.53334879875
+Time for the 5k records:10.3305408955
+Time for the 20k records:39.5544519424
+With caching queries : 
+Time for the 1k records:3.74115395546
+Time for the 5k records:4.30977201462
+Time for the 20k records:0.796862125397
+Without caching queries with greater than 200-800 tuples :  
+Time for the 1k records:4.42525696754
+Time for the 5k records:19.6286227703
+Time for the 20k records:80.5927610397
+With caching queries with greater than 200-800 tuples : : 
+Time for the 1k records:10.9299230576
+Time for the 5k records:0.0886600017548
+Time for the 20k records:0.0559010505676
+########################################################
+#########################################################
+Time taken to initialise database : 0.0886580944061
+File Download time 7.50154685974
+ File upload time : 3.87948608398
+Inserting into database time :59.4783668518
+Without caching queries : 
+Time for the 1k records:2.98487901688
+Time for the 5k records:10.385242939
+Time for the 20k records:41.4262449741
+With caching queries : 
+Time for the 1k records:0.375941991806
+Time for the 5k records:0.316205024719
+Time for the 20k records:1.30470395088
+Without caching queries with greater than 200-800 tuples :  
+Time for the 1k records:4.40680885315
+Time for the 5k records:20.9216661453
+Time for the 20k records:79.7717080116
+With caching queries with greater than 200-800 tuples : : 
+Time for the 1k records:1.93682408333
+Time for the 5k records:1.77940201759
+Time for the 20k records:0.961778879166
+#################################################################################################################
+Time taken to initialise database : 0.0872981548309
+File Download time 7.10823988914
+ File upload time : 3.51357913017
+Inserting into database time :59.3005979061
+Without caching queries : 
+Time for the 1k records:2.6523771286
+Time for the 5k records:10.447259903
+Time for the 20k records:41.4555678368
+With caching queries : 
+Time for the 1k records:0.130417108536
+Time for the 5k records:0.39910697937
+Time for the 20k records:0.173965930939
+Without caching queries with greater than 200-800 tuples :  
+Time for the 1k records:4.45010781288
+Time for the 5k records:20.2353739738
+Time for the 20k records:82.144411087
+With caching queries with greater than 200-800 tuples : : 
+Time for the 1k records:0.22806596756
+Time for the 5k records:1.86213684082
+Time for the 20k records:0.112057924271
+########################################################
