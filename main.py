@@ -1,9 +1,4 @@
 # name : samvaran kashyap 
-# student id : 1001142545
-# net id : skr2545
-# cloud computing assignment 5 
-# section 2 : 3:30 to 5:30
-# importing time for calculating the time
 import time
 import os
 from bottle import route, run, template
