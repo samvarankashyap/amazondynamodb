@@ -1,21 +1,7 @@
 # name : samvaran kashyap 
 import time
 import os
-from bottle import route, run, template
-from bottle import route, request, response, template, HTTPResponse
-from boto.dynamodb2.table import Table
-from boto.dynamodb2.fields import HashKey, RangeKey, GlobalAllIndex
-from boto.dynamodb2.table import Table
-from boto.dynamodb2.types import NUMBER
-from  boto.dynamodb.condition import *
 import bottle
-# importing urllib2 to download the files from the external resoources 
-import urllib2
-# importing MySQLdb client to interact with the RDS endpoint of amazon 
-import MySQLdb as mdb
-from boto.dynamodb.batch import BatchWriteList
-from boto.dynamodb.batch import *
-from boto.dynamodb.item import Item
 # importing csv package to read the csv files using csv file reader
 import csv
 # importing python debugger for debugging the python program
@@ -23,18 +9,33 @@ import pdb
 # importing the boto package to interact with aws resources
 import boto
 # importing key resource for createing Key while uploading the data to s3 bucket (filename)
-from boto.s3.key import Key
+# importing urllib2 to download the files from the external resoources 
+import urllib2
 # importing memcache for the interacting with memcache end point of amazon
 import memcache
 # import random to generate random words 
 import random
 import json
+# importing MySQLdb client to interact with the RDS endpoint of amazon 
+import MySQLdb as mdb
+import hashlib
+import boto.dynamodb
+from bottle import route, run, template
+from bottle import request, response, HTTPResponse
+from boto.dynamodb2.table import Table
+from boto.dynamodb2.fields import HashKey, RangeKey, GlobalAllIndex
+from boto.dynamodb2.table import Table
+from boto.dynamodb2.types import NUMBER
+from  boto.dynamodb.condition import *
+from boto.dynamodb.batch import BatchWriteList
+from boto.dynamodb.batch import *
+from boto.dynamodb.item import Item
+from boto.s3.key import Key
 #import the set dataset
 from sets import Set
 # importing hashlib for the key generation for the key digest for memcache
-import hashlib
-import boto.dynamodb
 from boto.dynamodb.schema import Schema
+
 # declaring end point from where the data file that needs to be downloaded
 #URL="https://data.cityofnewyork.us/api/views/9fg9-grkj/rows.csv?accessType=DOWNLOAD"
 URL="https://data.consumerfinance.gov/api/views/x94z-ydhh/rows.csv?accessType=DOWNLOAD"
@@ -48,11 +49,11 @@ BUCKET_NAME ="cloudbucketskr"
 # declaring client to interact with memcached `
 # declating db connection object that persists throughout the program
 conn = boto.dynamodb.connect_to_region('us-west-2')
-
 dynamodb_conn = boto.connect_dynamodb()
 table_name = 'consumer_table'
 dynamodb_table = dynamodb_conn.get_table(table_name)
- 
+
+
 @route('/')
 def main():
     # initialising database 
@@ -93,6 +94,7 @@ def query_builder():
     else:
         return 'This is a normal request'
 
+
 def get_data(query):
     table = conn.get_table(table_name)
     #items = table.scan(scan_filter={'c_id': EQ('1427578')})
@@ -100,11 +102,13 @@ def get_data(query):
     #print items.response["Items"]
     return items.response["Items"]
 
+
 def prepare_query(posted_data):
     data = {}
     for x in posted_data:
         data[x]= CONTAINS(posted_data[x])
     return data
+
 
 def filter_data(posted_data):
     data = {}
@@ -114,8 +118,8 @@ def filter_data(posted_data):
     return data
 
 
-# executing the queries with cache
 def initialise_db():
+    # executing the queries with cache
     """This function is to responsible for the initialisation the the database and tables """
     try:
         consumer_table_schema = conn.create_schema(
@@ -132,7 +136,7 @@ def initialise_db():
     except Exception as e:
         print str(e)
 
-#function is responisble for uploading to bucket
+
 def insert_into_db(table):
     # connecting to the database with independent connection
     table = conn.get_table('consumer_table')
@@ -167,6 +171,7 @@ def insert_into_db(table):
         # closing the file
         f.close()
 
+
 def clean_data(data):
     for x in data:
         if data[x]=='':
@@ -174,8 +179,8 @@ def clean_data(data):
     return data
 
 
-# function responsible for generating a random query where it takes gt 200 as input and  where if gt200 is True it gives output with greater than 200
 def generate_random_query(gt200):
+    # function responsible for generating a random query where it takes gt 200 as input and  where if gt200 is True it gives output with greater than 200
     # sample query in sql syntax select * from table where <parameter>
     # initialising the sample query
     init_q ="select"
@@ -213,6 +218,7 @@ def generate_random_query(gt200):
     #retuning the genrated random query by limiting it based on id of th table
     return init_q
 
+
 # function is responsible for generating small queries whose output is limited
 def generate_queries(query_count):
     # initialising set with inital query which is selecting all records from the consumer table
@@ -229,6 +235,7 @@ def generate_queries(query_count):
     #returning the query set
     return e
 
+
 # function to generate random queries which have output greater than 200 less than 800
 def generate_queries_gt200(query_count):
     # initialising set with inital query which is selecting all records from the consumer table
@@ -244,6 +251,7 @@ def generate_queries_gt200(query_count):
             break
     # returning the query set
     return e
+
 
 if __name__ == '__main__':
     run(host='0.0.0.0', port=8080, debug=True)
