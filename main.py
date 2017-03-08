@@ -73,15 +73,12 @@ def main():
     # calculating end time
     #end_time = time.time()
     #i_time = end_time - start_time
-    #print init_time
-    #print i_time
     #return the final string
     return template('webinterface.tpl')
 
 
 @bottle.route('/querybuilder',  method='POST')
 def query_builder():
-    #pdb.set_trace()
     # function creates output of the queries based on the posted parameters
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         posted_dict =  request.forms.dict
@@ -99,7 +96,6 @@ def get_data(query):
     table = conn.get_table(table_name)
     #items = table.scan(scan_filter={'c_id': EQ('1427578')})
     items = table.scan(scan_filter=query)
-    #print items.response["Items"]
     return items.response["Items"]
 
 
@@ -146,7 +142,6 @@ def insert_into_db(table):
     c=0
     try:
         # creating the csv reader to read the file
-        #reader = csv.reader(f)
         reader = csv.DictReader(f, fields)
         list_25 = []
         # looping through each row of the file
@@ -180,21 +175,29 @@ def clean_data(data):
 
 
 def generate_random_query(gt200):
-    # function responsible for generating a random query where it takes gt 200 as input and  where if gt200 is True it gives output with greater than 200
+    # function responsible for generating a random query where it takes gt 200 as input
+    # and  where if gt200 is True it gives output with greater than 200
     # sample query in sql syntax select * from table where <parameter>
     # initialising the sample query
     init_q ="select"
     # sample create table statement for the consumer table
-    #CREATE TABLE IF NOT EXISTS CONSUMER ( id int NOT NULL AUTO_INCREMENT, c_id INTEGER ,product VARCHAR(100),subproduct VARCHAR(100),issue VARCHAR(1000),subissue VARCHAR(1000) , state VARCHAR(100) ,zipcode INTEGER ,submittedvia VARCHAR(50), data_r VARCHAR(50) , data_s VARCHAR(50) ,  company VARCHAR(100) , company_resp VARCHAR(100) , timely_r VARCHAR(50) , disputed VARCHAR(10) , PRIMARY KEY (id))"
+    #CREATE TABLE IF NOT EXISTS CONSUMER 
+    #( id int NOT NULL AUTO_INCREMENT, c_id INTEGER ,
+    # product VARCHAR(100),subproduct VARCHAR(100),
+    #issue VARCHAR(1000),subissue VARCHAR(1000),
+    #state VARCHAR(100) ,zipcode INTEGER ,submittedvia VARCHAR(50),
+    #data_r VARCHAR(50) , data_s VARCHAR(50),company VARCHAR(100),
+    #company_resp VARCHAR(100) , timely_r VARCHAR(50),
+    #disputed VARCHAR(10) , PRIMARY KEY (id))"
     # initialising the fields for the database query to be generated
     fields = ["id", "c_id","product","subproduct","issue","subissue","state","zipcode","submittedvia","data_r","data_s","company","company_resp","timely_r","disputed"]
-    # selecting random projections from 0 to 15 , ie., selecting number of fields to be selected in the existing query
+    # selecting random projections from 0 to 15 ,
+    # ie., selecting number of fields to be selected in the existing query
     projections = random.randint(0,15)
     #initailising a set for the unique fields to be selected  
     fields_to_taken = Set([])
     # looping through the projections to select unique fiels
     for i in range(0,projections+1):
-        #print i,":",projections,"\n"
         # adding the projections to the set
         fields_to_taken.add(" "+random.choice(fields))
     # creating the query from the fields that are randomly chosen 
@@ -207,7 +210,6 @@ def generate_random_query(gt200):
     # generating random number two numbers to limit the records
     min_num = random.randint(1,250)
     #max_num = random.randint(25000,50000)
-    
     # checking whther the gt200 flag is true or not 
     if gt200 == True:
         # if true generate random number between 200 and 800 tuples 
@@ -215,7 +217,7 @@ def generate_random_query(gt200):
         init_q += " from CONSUMER where id < "+str(num)
     else:
         init_q =  init_q+" from CONSUMER where id < "+str(min_num)
-    #retuning the genrated random query by limiting it based on id of th table
+    #returning the genrated random query by limiting it based on id of th table
     return init_q
 
 
