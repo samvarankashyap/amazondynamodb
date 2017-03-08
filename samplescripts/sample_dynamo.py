@@ -1,8 +1,6 @@
 import boto.dynamodb
 from boto.dynamodb.schema import Schema
 from  boto.dynamodb.condition import *
-import pdb
-pdb.set_trace()
 conn = boto.dynamodb.connect_to_region('us-west-2')
 
 def get_data(query):
