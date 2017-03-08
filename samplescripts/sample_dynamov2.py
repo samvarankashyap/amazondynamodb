@@ -2,9 +2,6 @@ import boto
 from boto.dynamodb2.fields import HashKey
 from boto.dynamodb2.table import Table
 conn = boto.dynamodb.connect_to_region('us-west-2')
-import pdb
-pdb.set_trace()
-
 connection=boto.dynamodb2.connect_to_region('us-west-2')
 users = Table.create('users', schema=[
      HashKey('username'), # defaults to STRING data_type
